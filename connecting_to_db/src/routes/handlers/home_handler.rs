@@ -1,7 +1,20 @@
-use actix_web::{web, Responder, HttpResponse};
+use actix_web::{get, web, Responder};
+use sea_orm::{ConnectionTrait, Statement};
+use crate::utils::{api_response, app_state::{self, AppState}};
 
-#[actix_web::get("/greet/{id}")]
-pub async fn greet(user_id: web::Path<u32>) -> impl Responder {
-    HttpResponse::Ok().body(format!("Hello {}!", user_id))
+
+
+#[get("/hello/{name}")]
+pub async fn greet(name: web::Path<String>) -> impl Responder {
+    api_response::ApiResponse::new(200, format!("Hello {name}!"))
 }
 
+
+#[get("/test")]
+pub async fn test(app_state: web::Data<AppState>) -> impl Responder {
+
+    let res = app_state.db
+    .query_all(Statement::from_string(sea_orm::DatabaseBackend::MySql, "Select * from user; ")).await.unwrap();
+
+    api_response::ApiResponse::new(200, "Test".to_string())
+}
