@@ -21,7 +21,7 @@ async fn main() -> std::io::Result<()> {
     // This one line, connects you with the db via seaORM
     let db: DatabaseConnection = Database::connect(database_url).await.unwrap();
 
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         App::new()
         .wrap(Logger::default())
         .configure(routes::home_routes::config)
