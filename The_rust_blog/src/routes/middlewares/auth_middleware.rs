@@ -3,8 +3,6 @@ use actix_web_lab::middleware::Next;
 
 use crate::utils::{api_response::{self, ApiResponse}, jwt::decode_jwt};
 
-
-
 pub async fn check_auth_middleware(
     req: ServiceRequest,
     next: Next<impl MessageBody>
