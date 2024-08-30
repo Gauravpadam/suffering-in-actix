@@ -63,7 +63,8 @@ pub async fn login(
     // }
 
     let token = encode_jwt(user_data.email, user_data.id)
-    .map_err(|err| ApiResponse::new(500, err.to_string()))?;
+    .map_err(|err| ApiResponse::new(500, err.to_string()))?
+    ;
 
     Ok(api_response::ApiResponse::new(200, format!("{{ 'token': '{}'}}", token)))
 
