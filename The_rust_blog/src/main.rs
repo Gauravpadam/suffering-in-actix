@@ -2,7 +2,7 @@ use std::{error::Error, fmt::{Display}};
 use actix_web::{get, middleware::Logger, web, App, HttpServer, Responder};
 use migration::{Migrator, MigratorTrait};
 use sea_orm::{Database, DatabaseConnection};
-use utils::app_state::AppState;
+use utils::app_state::{self, AppState};
 
 #[derive(Debug)]
 struct MainError{
@@ -57,6 +57,7 @@ async fn main() -> Result<(), MainError> {
         .configure(routes::home_routes::config)
         .configure(routes::auth_routes::config)
         .configure(routes::user_routes::config)
+        .configure(routes::post_routes::config)
     })
     .bind((address, port))
     .map_err(|err| MainError{ message: err.to_string()})?
